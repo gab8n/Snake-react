@@ -1,0 +1,73 @@
+@import '../../src/lib/variables.module.scss';
+@import 'node_modules/pixel-borders/src/styles/pixel-borders.scss';
+.pageContainer {
+}
+.menuContainer {
+  background-image: url('../Assets/background2.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  .logoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    height: fit-content;
+    .logoImage {
+      width: 25vw;
+      margin: 0;
+      padding: 0;
+    }
+    .logoText {
+      margin: 0;
+      padding: 0;
+      font-size: 5vw;
+      color: #7dd40c;
+      margin-top: -4vh;
+    }
+  }
+
+  .pixelBoder {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #7dd40c;
+    font-size: 30px;
+    // cursor: pointer;
+    @include pixel-borders(
+      $corner-size: 2,
+      $border-size: 7px,
+      $border-color: #7dd40c,
+      $border-inset-color: true
+    );
+    &:active {
+      top: 2px;
+    }
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    height: 4.5vw;
+    width: 20vw;
+  }
+  .warriorGifStyle {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 50%;
+  }
+  .warriorMessageStyle {
+    position: absolute;
+    right: 12%;
+    width: 20vw;
+    bottom: 48%;
+  }
+}

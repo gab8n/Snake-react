@@ -1,0 +1,34 @@
+@import '../Common/mixins.module.scss';
+
+.logInContainer {
+  background-image: url('../Assets/background3.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  // justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.mooshroomGirlGifStyle {
+  height: 50%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+.sakuraTreeGifStyle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  pointer-events: none;
+}
+.mooshroomGirlMessageStyle {
+  position: absolute;
+  left: 14vw;
+  bottom: 30vh;
+  width: 300px;
+}

@@ -1,0 +1,34 @@
+@import '../Common/mixins.module.scss';
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  .logInInput {
+    margin-bottom: 20px;
+    background-color: #ceacf8;
+  }
+  .logInButtonsContainer {
+    display: flex;
+    justify-content: space-between;
+
+    .googleLogInButton {
+      @include buttonSize(70px, 70px, 30px);
+      .googleLogoStyle {
+        max-width: 10vw;
+      }
+    }
+    .submitLogInButton {
+      @include buttonSize(70px, 370px, 30px);
+      margin-right: 10px;
+    }
+  }
+  .registerButton {
+    align-self: flex-start;
+  }
+}
+
+.logInButtons {
+  background-color: #ceacf8;
+  @include borderPixelated(#f467c9);
+  @include buttonSize(70px, 370px, 30px);
+  margin-bottom: 20px;
+}

@@ -1,0 +1,18 @@
+.pixelBorder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:active {
+    top: 2px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
