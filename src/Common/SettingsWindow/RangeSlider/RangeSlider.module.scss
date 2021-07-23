@@ -1,0 +1,31 @@
+@import '../../../Common/mixins.module.scss';
+@import 'node_modules/pixel-borders/src/styles/pixel-borders.scss';
+
+.sliderContainer {
+  // @include borderPixelated(#aa0000);
+  @include pixel-borders(
+    $corner-size: 1,
+    $border-size: 7px,
+    $border-color: #aa0000
+  );
+  // border-style: solid;
+  // border-color: #aa0000;
+  line-height: 0 !important;
+}
+
+.slider {
+  overflow: hidden;
+  width: 200px;
+  -webkit-appearance: none;
+  background-color: #00000000;
+
+  &::-webkit-slider-thumb {
+    margin: 0 !important;
+    padding: 0;
+    width: 10px;
+    -webkit-appearance: none;
+    height: 25px;
+    background: #aa0000;
+    box-shadow: -200px 0 0 200px #aa0000;
+  }
+}

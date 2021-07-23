@@ -4,8 +4,7 @@
   @include pixel-borders(
     $corner-size: 2,
     $border-size: 7px,
-    $border-color: $borderColor,
-    $border-inset-color: true
+    $border-color: $borderColor
   );
   color: $borderColor;
 }

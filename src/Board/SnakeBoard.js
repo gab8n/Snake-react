@@ -5,11 +5,9 @@ import useSound from 'use-sound';
 import eatSound from '../Sounds/eatSound.mp3';
 import gameOver from '../Sounds/GameOver.mp3';
 
-import styles from '../Board/Board.module.scss';
+import styles from '../Board/SnakeBoard.module.scss';
 import './FoodStyles.css';
-import swordGuyGif from '../Assets/bat.gif';
-import Typical from 'react-typical';
-import SettingIcon from '../Common/SettingIcon/SettingIcon';
+import { useSelector, useDispatch } from 'react-redux';
 
 class LinkedListNode {
   constructor(value) {
@@ -37,6 +35,7 @@ const BOARD_SIZE = 12;
 
 const {
   snakeHeadStyle,
+  snakeTailStyle,
   snakeBodyStyle,
   snakeHeadStyleUP,
   snakeHeadStyleDOWN,
@@ -46,9 +45,6 @@ const {
   foodStyle,
   boardStyle,
   rowStyle,
-  boardContainer,
-  swordGuyGifStyle,
-  swordGuyMessageStyle,
 } = styles;
 
 const getStartingSnakeLLValue = (board) => {
@@ -76,9 +72,16 @@ const SnakeBoard = () => {
   // Naively set the starting food cell 5 cells away from the starting snake cell.
   const [foodCell, setFoodCell] = useState(snake.head.value.cell + 5);
   const [direction, setDirection] = useState(Direction.RIGHT);
+  const playEffectsVolume = useSelector(
+    (state) => state.volumeManager.effectsVolume
+  );
 
-  const [playEatSound] = useSound(eatSound);
-  const [playGameOver] = useSound(gameOver);
+  const [playEatSound] = useSound(eatSound, {
+    volume: playEffectsVolume / 10,
+  });
+  const [playGameOver] = useSound(gameOver, {
+    volume: playEffectsVolume / 10,
+  });
 
   useEffect(() => {
     window.addEventListener('keydown', (e) => {
@@ -91,7 +94,7 @@ const SnakeBoard = () => {
   // definition for details.
   useInterval(() => {
     moveSnake();
-  }, 150);
+  }, 200);
 
   const handleKeydown = (e) => {
     const newDirection = getDirectionFromKey(e.key);
@@ -185,7 +188,7 @@ const SnakeBoard = () => {
   };
 
   const handleGameOver = () => {
-    // playGameOver();
+    playGameOver();
     setScore(0);
     const snakeLLStartingValue = getStartingSnakeLLValue(board);
     setSnake(new LinkedList(snakeLLStartingValue));
@@ -195,8 +198,8 @@ const SnakeBoard = () => {
   };
 
   return (
-    <div className={boardContainer}>
-      <h1>Score: {score}</h1>
+    <>
+      {/* <h1>Score: {score}</h1> */}
       <div className={boardStyle}>
         {board.map((row, rowIdx) => (
           <div key={rowIdx} className={rowStyle}>
@@ -206,6 +209,7 @@ const SnakeBoard = () => {
                 foodCell,
                 snakeCells,
                 snake.head.value.cell,
+                snake.tail.value.cell,
                 direction
               );
               return <div key={cellIdx} className={className}></div>;
@@ -213,18 +217,7 @@ const SnakeBoard = () => {
           </div>
         ))}
       </div>
-      <img src={swordGuyGif} className={swordGuyGifStyle} alt="swordGuy" />
-      <div className={swordGuyMessageStyle}>
-        <p class="nes-balloon from-left ">
-          <Typical
-            steps={['Win the game', 5000]}
-            // loop={Infinity}
-            wrapper="p"
-          />
-        </p>
-      </div>
-      <SettingIcon />
-    </div>
+    </>
   );
 };
 
@@ -331,6 +324,7 @@ const getCellClassName = (
   foodCell,
   snakeCells,
   snakeHead,
+  snakeTail,
   direction
 ) => {
   let className = cellStyle;
@@ -350,7 +344,9 @@ const getCellClassName = (
         : direction === 'LEFT'
         ? snakeHeadStyleLEFT
         : snakeHeadStyleRIGHT);
-  } else if (snakeCells.has(cellValue))
+  } else if (cellValue === snakeTail)
+    className = `${cellStyle}` + ' ' + `${snakeTailStyle}`;
+  else if (snakeCells.has(cellValue))
     className = `${cellStyle}` + ' ' + `${snakeBodyStyle}`;
 
   return className;

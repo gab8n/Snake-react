@@ -1,0 +1,11 @@
+.volumeSliderContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 290px;
+
+  .volumeImage {
+    object-fit: contain;
+    width: 30px;
+  }
+}

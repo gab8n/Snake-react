@@ -4,7 +4,6 @@ const LOGIN = 'snakeReact/loginOrRegister/login';
 const initialState = 'LOGIN';
 
 export default function reducer(state = initialState, action) {
-  console.log(action.type);
   switch (action.type) {
     case REGISTER:
       return 'REGISTER';

@@ -3,13 +3,13 @@ import 'nes.css/css/nes.min.css';
 import mooshroomGirlGif from '../Assets/mooshroomGirl.gif';
 import sakuraTreeGif from '../Assets/WeirdValidJoey.webp';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import LogInForm from './LogInForm/LogInForm';
 import RegisterForm from './RegisterForm/RegisterForm';
 import SettingsWindow from '../Common/SettingsWindow/SettingsWindow';
 import AvatarWithMessage from '../Common/AvatarWithMessage/AvatarWithMessage';
-import { useDispatch } from 'react-redux';
+
 import { writeLoginPageMessage } from '../Redux/Ducks/avatarMessage';
 
 const LogIn = () => {

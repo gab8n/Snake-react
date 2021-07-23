@@ -3,6 +3,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import logger from 'redux-logger';
 import loginOrRegister from './Ducks/loginOrRegister';
 import avatarMessage from './Ducks/avatarMessage';
+import volumeManager from './Ducks/volumeManager';
 
 // const loggerMiddleware = createLogger(); // initialize logger
 
@@ -11,6 +12,7 @@ const createStoreWithMiddleware = applyMiddleware(logger)(createStore); // apply
 const reducer = combineReducers({
   loginOrRegister,
   avatarMessage,
+  volumeManager,
 });
 
 const configureStore = (initialState) =>

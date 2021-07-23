@@ -12,7 +12,7 @@ const AvatarWithMessage = ({
     <>
       <img className={avatarImageStyle} src={avatarImage} alt="avatar" />
       <div className={avatarMessageClass}>
-        <p class={`nes-balloon from-${avatarMessagedirection}`}>
+        <p className={`nes-balloon from-${avatarMessagedirection}`}>
           <Typical
             steps={[avatarMessage, 5000]}
             // loop={Infinity}
