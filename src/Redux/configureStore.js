@@ -4,19 +4,21 @@ import logger from 'redux-logger';
 import loginOrRegister from './Ducks/loginOrRegister';
 import avatarMessage from './Ducks/avatarMessage';
 import volumeManager from './Ducks/volumeManager';
+import backgroundMusic from './Ducks/backgroundMusic';
+import gameDifficulty from './Ducks/gameDifficulty';
 
-// const loggerMiddleware = createLogger(); // initialize logger
-
-const createStoreWithMiddleware = applyMiddleware(logger)(createStore); // apply logger to redux
+// const createStoreWithMiddleware = applyMiddleware(logger)(createStore); // apply logger to redux
 
 const reducer = combineReducers({
   loginOrRegister,
   avatarMessage,
   volumeManager,
+  backgroundMusic,
+  gameDifficulty,
 });
 
 const configureStore = (initialState) =>
-  createStoreWithMiddleware(
+  createStore(
     reducer,
     initialState,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

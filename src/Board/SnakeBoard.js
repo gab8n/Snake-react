@@ -8,6 +8,8 @@ import gameOver from '../Sounds/GameOver.mp3';
 import styles from '../Board/SnakeBoard.module.scss';
 import './FoodStyles.css';
 import { useSelector, useDispatch } from 'react-redux';
+import { stopGame, playMediumDifficulty } from '../Redux/Ducks/gameDifficulty';
+import Countdown from '../Game/Countdown/Countdown';
 
 class LinkedListNode {
   constructor(value) {
@@ -75,6 +77,7 @@ const SnakeBoard = () => {
   const playEffectsVolume = useSelector(
     (state) => state.volumeManager.effectsVolume
   );
+  const gameDifficulty = useSelector((state) => state.gameDifficulty);
 
   const [playEatSound] = useSound(eatSound, {
     volume: playEffectsVolume / 10,
@@ -88,13 +91,19 @@ const SnakeBoard = () => {
       handleKeydown(e);
     });
   }, []);
+  const dispatch = useDispatch();
+
+  const [activeCountdown, setActiveCountdown] = useState(false);
+  const toggleCountdown = () => {
+    setActiveCountdown(!activeCountdown);
+  };
 
   // `useInterval` is needed; you can't naively do `setInterval` in the
   // `useEffect` above. See the article linked above the `useInterval`
   // definition for details.
   useInterval(() => {
     moveSnake();
-  }, 200);
+  }, gameDifficulty);
 
   const handleKeydown = (e) => {
     const newDirection = getDirectionFromKey(e.key);
@@ -186,15 +195,21 @@ const SnakeBoard = () => {
     setFoodCell(nextFoodCell);
     setScore(score + 1);
   };
-
-  const handleGameOver = () => {
-    playGameOver();
-    setScore(0);
+  const onCountdownEnd = () => {
+    toggleCountdown();
     const snakeLLStartingValue = getStartingSnakeLLValue(board);
     setSnake(new LinkedList(snakeLLStartingValue));
     setFoodCell(snakeLLStartingValue.cell + 5);
     setSnakeCells(new Set([snakeLLStartingValue.cell]));
     setDirection(Direction.RIGHT);
+    dispatch(playMediumDifficulty());
+  };
+
+  const handleGameOver = () => {
+    playGameOver();
+    setScore(0);
+    dispatch(stopGame());
+    toggleCountdown();
   };
 
   return (
@@ -217,6 +232,7 @@ const SnakeBoard = () => {
           </div>
         ))}
       </div>
+      {activeCountdown ? <Countdown onCountdownEnd={onCountdownEnd} /> : ''}
     </>
   );
 };

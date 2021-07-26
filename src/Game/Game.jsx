@@ -3,26 +3,20 @@ import swordGuyGif from '../Assets/bat.gif';
 import Typical from 'react-typical';
 import styles from '../Game/Game.module.scss';
 import useSound from 'use-sound';
-import backgroundMusic from '../Sounds/backgroundMusic.mp3';
+// import backgroundMusic from '../Sounds/backgroundMusic.mp3';
 import SettingsWindow from '../Common/SettingsWindow/SettingsWindow';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { playBackgroundMusicGame } from '../Redux/Ducks/backgroundMusic';
+import Countdown from './Countdown/Countdown';
 
 const Game = () => {
   const playMusicVolume = useSelector(
     (state) => state.volumeManager.musicVolume
   );
 
-  const [playbackgroundMusic] = useSound(backgroundMusic, {
-    loop: true,
-    volume: playMusicVolume / 10,
-    interrupt: true,
-  });
-
-  useEffect(() => {
-    console.log(playMusicVolume);
-    playbackgroundMusic();
-  }, [playbackgroundMusic]);
+  const dispatch = useDispatch();
+  dispatch(playBackgroundMusicGame());
 
   const { swordGuyGifStyle, swordGuyMessageStyle, gameContainer } = styles;
   return (

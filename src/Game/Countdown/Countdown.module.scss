@@ -1,0 +1,22 @@
+@import '../../Common/mixins.module.scss';
+.countdownStyle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 150px;
+  //   background-color: aqua;
+  color: rgb(255, 255, 94);
+  transform: translate(-50%, -50%);
+  animation-name: example;
+  animation-duration: 3s;
+  padding: 10px 30px;
+  //   opacity: 80%;
+  @keyframes example {
+    from {
+      color: rgb(226, 43, 43);
+    }
+    to {
+      color: rgb(255, 255, 94);
+    }
+  }
+}
