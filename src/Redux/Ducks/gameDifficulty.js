@@ -23,7 +23,7 @@ export default function reducer(state = initialState, action) {
 export const playEasyDifficulty = () => {
   return { type: EASY };
 };
-export const cowntdown = () => {
+export const playMediumDifficulty = () => {
   return { type: MEDIUM };
 };
 export const playHardDifficulty = () => {

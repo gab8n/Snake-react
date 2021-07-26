@@ -10,6 +10,7 @@ import './FoodStyles.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { stopGame, playMediumDifficulty } from '../Redux/Ducks/gameDifficulty';
 import Countdown from '../Game/Countdown/Countdown';
+import { changeDirection } from '../Redux/Ducks/snakeDirection';
 
 class LinkedListNode {
   constructor(value) {
@@ -73,7 +74,8 @@ const SnakeBoard = () => {
   );
   // Naively set the starting food cell 5 cells away from the starting snake cell.
   const [foodCell, setFoodCell] = useState(snake.head.value.cell + 5);
-  const [direction, setDirection] = useState(Direction.RIGHT);
+  // const [direction, setDirection] = useState(Direction.RIGHT);
+  const direction = useSelector((state) => state.snakeDirection);
   const playEffectsVolume = useSelector(
     (state) => state.volumeManager.effectsVolume
   );
@@ -88,6 +90,7 @@ const SnakeBoard = () => {
 
   useEffect(() => {
     window.addEventListener('keydown', (e) => {
+      // console.log(e.key, direction);
       handleKeydown(e);
     });
   }, []);
@@ -111,9 +114,7 @@ const SnakeBoard = () => {
     const isValidDirection = newDirection !== '';
     if (!isValidDirection) return;
 
-    // if (getOppositeDirection(direction) === newDirection)
-
-    setDirection(newDirection);
+    dispatch(changeDirection(newDirection));
   };
 
   const moveSnake = () => {
@@ -201,7 +202,8 @@ const SnakeBoard = () => {
     setSnake(new LinkedList(snakeLLStartingValue));
     setFoodCell(snakeLLStartingValue.cell + 5);
     setSnakeCells(new Set([snakeLLStartingValue.cell]));
-    setDirection(Direction.RIGHT);
+    // setDirection(Direction.RIGHT);
+    dispatch(changeDirection(Direction.RIGHT));
     dispatch(playMediumDifficulty());
   };
 
