@@ -11,7 +11,6 @@ import SettingsWindow from '../Common/SettingsWindow/SettingsWindow';
 import { useDispatch, useSelector } from 'react-redux';
 import { writeMenuPageMessage } from '../Redux/Ducks/avatarMessage';
 import AvatarWithMessage from '../Common/AvatarWithMessage/AvatarWithMessage';
-// import mysteriousLandsBackground from '../Sounds/Mysterious_Lands_Background.mp3';
 import backgroundMusicMenu from '../Sounds/backgroundMusicMenu.mp3';
 
 const Menu = () => {
