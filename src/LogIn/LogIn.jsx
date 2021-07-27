@@ -11,13 +11,11 @@ import SettingsWindow from '../Common/SettingsWindow/SettingsWindow';
 import AvatarWithMessage from '../Common/AvatarWithMessage/AvatarWithMessage';
 import useSound from 'use-sound';
 import { writeLoginPageMessage } from '../Redux/Ducks/avatarMessage';
-// import fantasyGameBackground from '../Sounds/Fantasy_Game_Background.mp3';
-import { playBackgroundMusicLogin } from '../Redux/Ducks/backgroundMusic';
+import backgroundMusicLogin from '../Sounds/backgroundMusicLogin.mp3';
 
 const LogIn = () => {
   const dispatch = useDispatch();
   dispatch(writeLoginPageMessage());
-  dispatch(playBackgroundMusicLogin());
 
   const {
     logInContainer,
@@ -27,15 +25,20 @@ const LogIn = () => {
   } = styles;
   const loginOrRegisterState = useSelector((state) => state.loginOrRegister);
 
-  // const [playbackgroundMusic] = useSound(fantasyGameBackground, {
-  //   loop: true,
-  //   // volume: playMusicVolume / 10,
-  //   interrupt: true,
-  // });
+  const playMusicVolume = useSelector(
+    (state) => state.volumeManager.musicVolume
+  );
 
-  // useEffect(() => {
-  //   playbackgroundMusic();
-  // }, [playbackgroundMusic]);
+  const [playbackgroundMusic, { stop }] = useSound(backgroundMusicLogin, {
+    loop: true,
+    volume: playMusicVolume / 10,
+    interrupt: true,
+  });
+
+  useEffect(() => {
+    playbackgroundMusic();
+    return () => stop();
+  }, [playbackgroundMusic]);
 
   return (
     <div className={logInContainer}>

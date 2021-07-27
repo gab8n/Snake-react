@@ -7,16 +7,23 @@ import useSound from 'use-sound';
 import SettingsWindow from '../Common/SettingsWindow/SettingsWindow';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { playBackgroundMusicGame } from '../Redux/Ducks/backgroundMusic';
-import Countdown from './Countdown/Countdown';
+import backgroundMusicGame from '../Sounds/backgroundMusicGame.mp3';
 
 const Game = () => {
   const playMusicVolume = useSelector(
     (state) => state.volumeManager.musicVolume
   );
 
-  const dispatch = useDispatch();
-  dispatch(playBackgroundMusicGame());
+  const [playbackgroundMusic, { stop }] = useSound(backgroundMusicGame, {
+    loop: true,
+    volume: playMusicVolume / 10,
+    interrupt: true,
+  });
+
+  useEffect(() => {
+    playbackgroundMusic();
+    return () => stop();
+  }, [playbackgroundMusic]);
 
   const { swordGuyGifStyle, swordGuyMessageStyle, gameContainer } = styles;
   return (

@@ -8,16 +8,15 @@ import useSound from 'use-sound';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import SettingsWindow from '../Common/SettingsWindow/SettingsWindow';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { writeMenuPageMessage } from '../Redux/Ducks/avatarMessage';
 import AvatarWithMessage from '../Common/AvatarWithMessage/AvatarWithMessage';
 // import mysteriousLandsBackground from '../Sounds/Mysterious_Lands_Background.mp3';
-import { playBackgroundMusicMenu } from '../Redux/Ducks/backgroundMusic';
+import backgroundMusicMenu from '../Sounds/backgroundMusicMenu.mp3';
 
 const Menu = () => {
   const dispatch = useDispatch();
   dispatch(writeMenuPageMessage());
-  dispatch(playBackgroundMusicMenu());
 
   const {
     menuContainer,
@@ -29,15 +28,20 @@ const Menu = () => {
     warriorMessageStyle,
   } = styles;
 
-  // const [playbackgroundMusic] = useSound(mysteriousLandsBackground, {
-  //   loop: true,
-  //   // volume: playMusicVolume / 10,
-  //   interrupt: true,
-  // });
+  const playMusicVolume = useSelector(
+    (state) => state.volumeManager.musicVolume
+  );
 
-  // useEffect(() => {
-  //   playbackgroundMusic();
-  // }, [playbackgroundMusic]);
+  const [playbackgroundMusic, { stop }] = useSound(backgroundMusicMenu, {
+    loop: true,
+    volume: playMusicVolume / 10,
+    interrupt: true,
+  });
+
+  useEffect(() => {
+    playbackgroundMusic();
+    return () => stop();
+  }, [playbackgroundMusic]);
 
   return (
     <div className={menuContainer}>
