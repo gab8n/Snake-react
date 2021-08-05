@@ -1,0 +1,40 @@
+@import '../../Common/mixins.module.scss';
+.modal {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  background-color: #000;
+  @include borderPixelated(#41a58c);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.modalContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.405);
+}
+
+.gameOverButton {
+  background-color: #392d5b;
+  @include borderPixelated(#41a58c);
+  @include buttonSize(70px, 370px, 30px);
+  margin-bottom: 20px;
+  &:active {
+    background-color: white;
+  }
+}
+.scoreStyle {
+  font-size: 40px;
+  color: #41a58c;
+  margin-bottom: 40px;
+}
+.numberScoreStyle {
+  color: #d098bf;
+}

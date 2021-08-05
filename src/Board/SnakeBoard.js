@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { randomIntFromInterval, useInterval } from '../lib/utils.js';
 import useSound from 'use-sound';
 
@@ -19,6 +19,9 @@ import { getCoordsInDirection } from './Utils/getCoordsInDirection';
 import { createBoard } from './Utils/createBoard';
 import { Direction } from './Utils/Direction';
 import { getStartingSnakeLLValue } from './Utils/getStartingSnakeLLValue';
+import HearthIconLives from './HeartIconLives/HeartIconLives.jsx';
+import GameOver from '../Game/GameOver/GameOver.jsx';
+import GameOverAnimation from '../Game/GameOverAnimation/GameOverAnimation.jsx';
 
 class LinkedListNode {
   constructor(value) {
@@ -37,10 +40,11 @@ class LinkedList {
 
 const BOARD_SIZE = 12;
 
-const { boardStyle, rowStyle } = styles;
+const { boardStyle, rowStyle, boardContainer, gameScore, gameTopBar } = styles;
 
 const SnakeBoard = () => {
   const [score, setScore] = useState(0);
+  const [lives, setLives] = useState(3);
   const [board, setBoard] = useState(createBoard(BOARD_SIZE));
   const [snake, setSnake] = useState(
     new LinkedList(getStartingSnakeLLValue(board))
@@ -52,6 +56,10 @@ const SnakeBoard = () => {
   const [activeCountdown, setActiveCountdown] = useState(false);
   const toggleCountdown = () => {
     setActiveCountdown(!activeCountdown);
+  };
+  const [activeGameOverAnimation, setGameOverAnimation] = useState(false);
+  const toggleGameOverAnimation = () => {
+    setGameOverAnimation(!activeGameOverAnimation);
   };
 
   const direction = useSelector((state) => state.snakeDirection);
@@ -69,10 +77,11 @@ const SnakeBoard = () => {
 
   useEffect(() => {
     window.addEventListener('keydown', (e) => {
-      // console.log(e.key, direction);
+      console.log(activeCountdown);
       handleKeydown(e);
     });
   }, []);
+
   const dispatch = useDispatch();
 
   useInterval(() => {
@@ -175,17 +184,47 @@ const SnakeBoard = () => {
     dispatch(changeDirection(Direction.RIGHT));
     dispatch(playMediumDifficulty());
   };
+  const childRef = useRef();
 
-  const handleGameOver = () => {
-    playGameOver();
+  const onReplay = () => {
+    setLives(3);
     setScore(0);
-    dispatch(stopGame());
+    const snakeLLStartingValue = getStartingSnakeLLValue(board);
+    setSnake(new LinkedList(snakeLLStartingValue));
+    setFoodCell(snakeLLStartingValue.cell + 5);
+    setSnakeCells(new Set([snakeLLStartingValue.cell]));
+    dispatch(changeDirection(Direction.RIGHT));
+    // dispatch(stopGame());
     toggleCountdown();
   };
 
+  const handleGameOver = () => {
+    window.removeEventListener('keydown', (e) => {
+      handleKeydown(e);
+    });
+    if (lives > 1) {
+      setLives(lives - 1);
+      dispatch(stopGame());
+      toggleCountdown();
+    } else {
+      setLives(lives - 1);
+      dispatch(stopGame());
+      playGameOver();
+      // setScore(0);
+      // openModal();
+      toggleGameOverAnimation();
+      const timer = setTimeout(() => {
+        childRef.current.openModal();
+      }, 2100);
+      return () => clearTimeout(timer);
+    }
+  };
   return (
-    <>
-      {/* <h1>Score: {score}</h1> */}
+    <div className={boardContainer}>
+      <div className={gameTopBar}>
+        <h2 className={gameScore}>Score: {score}</h2>
+        <HearthIconLives {...{ lives }} />
+      </div>
       <div className={boardStyle}>
         {board.map((row, rowIdx) => (
           <div key={rowIdx} className={rowStyle}>
@@ -197,7 +236,8 @@ const SnakeBoard = () => {
                 snake.head.value.cell,
                 snake.tail.value.cell,
                 direction,
-                styles
+                styles,
+                activeCountdown
               );
               return <div key={cellIdx} className={className}></div>;
             })}
@@ -205,7 +245,18 @@ const SnakeBoard = () => {
         ))}
       </div>
       {activeCountdown ? <Countdown onCountdownEnd={onCountdownEnd} /> : ''}
-    </>
+      {activeGameOverAnimation ? (
+        <GameOverAnimation onFinishAnimation={toggleGameOverAnimation} />
+      ) : (
+        ''
+      )}
+
+      <GameOver
+        {...{ score, onReplay }}
+        restartGame={() => dispatch(playMediumDifficulty())}
+        ref={childRef}
+      />
+    </div>
   );
 };
 

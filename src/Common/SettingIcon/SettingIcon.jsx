@@ -7,7 +7,7 @@ const SettingIcon = ({ onClick }) => {
       <img
         src={settingIcon}
         alt="SettingsIcon"
-        className={settingIconStyle}
+        className={`${settingIconStyle} nes-pointer`}
         onClick={onClick}
       />
     </>

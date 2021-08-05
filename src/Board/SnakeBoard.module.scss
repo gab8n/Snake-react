@@ -1,5 +1,28 @@
 @import 'node_modules/pixel-borders/src/styles/pixel-borders.scss';
 
+.boardContainer {
+  display: flex;
+  flex-direction: column;
+  .gameTopBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(134, 154, 189);
+    margin-bottom: 10px;
+    padding: 0 20px;
+    @include pixel-borders(
+      $corner-size: 2,
+      $border-size: 6px,
+      $border-color: rgb(134, 154, 189),
+      $border-inset-color: true
+    );
+    .gameScore {
+      font-size: 35px;
+      color: black;
+    }
+  }
+}
+
 .boardStyle {
   border: 5px solid rgb(134, 154, 189);
   background-color: #29153f93;

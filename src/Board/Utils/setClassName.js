@@ -5,7 +5,8 @@ export const getCellClassName = (
   snakeHead,
   snakeTail,
   direction,
-  styles
+  styles,
+  activeCountdown
 ) => {
   const {
     snakeHeadStyle,
@@ -29,17 +30,18 @@ export const getCellClassName = (
       ' ' +
       `${snakeHeadStyle}` +
       ' ' +
-      (direction === 'UP'
-        ? `${snakeHeadStyleUP}`
-        : direction === 'DOWN'
-        ? snakeHeadStyleDOWN
-        : direction === 'LEFT'
-        ? snakeHeadStyleLEFT
-        : snakeHeadStyleRIGHT);
+      (!activeCountdown
+        ? direction === 'UP'
+          ? `${snakeHeadStyleUP}`
+          : direction === 'DOWN'
+          ? snakeHeadStyleDOWN
+          : direction === 'LEFT'
+          ? snakeHeadStyleLEFT
+          : snakeHeadStyleRIGHT
+        : '');
   } else if (cellValue === snakeTail)
     className = `${cellStyle}` + ' ' + `${snakeTailStyle}`;
   else if (snakeCells.has(cellValue))
     className = `${cellStyle}` + ' ' + `${snakeBodyStyle}`;
-
   return className;
 };

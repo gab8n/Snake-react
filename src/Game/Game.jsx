@@ -2,8 +2,8 @@ import SnakeBoard from '../Board/SnakeBoard';
 import swordGuyGif from '../Assets/bat.gif';
 import Typical from 'react-typical';
 import styles from '../Game/Game.module.scss';
+import AvatarWithMessage from '../Common/AvatarWithMessage/AvatarWithMessage';
 import useSound from 'use-sound';
-// import backgroundMusic from '../Sounds/backgroundMusic.mp3';
 import SettingsWindow from '../Common/SettingsWindow/SettingsWindow';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -29,16 +29,12 @@ const Game = () => {
   return (
     <div className={gameContainer}>
       <SnakeBoard />
-      <img src={swordGuyGif} className={swordGuyGifStyle} alt="swordGuy" />
-      <div className={swordGuyMessageStyle}>
-        <p class="nes-balloon from-left ">
-          <Typical
-            steps={['Win the game', 5000]}
-            // loop={Infinity}
-            wrapper="p"
-          />
-        </p>
-      </div>
+      <AvatarWithMessage
+        avatarImageStyle={swordGuyGifStyle}
+        avatarImage={swordGuyGif}
+        avatarMessageClass={swordGuyMessageStyle}
+        avatarMessagedirection="left"
+      />
       <SettingsWindow />
     </div>
   );
