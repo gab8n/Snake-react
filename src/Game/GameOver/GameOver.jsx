@@ -42,7 +42,6 @@ const GameOver = forwardRef(({ score, onReplay, restartGame }, ref) => {
   return (
     <Modal
       isOpen={modalIsOpen}
-      // onRequestClose={closeModal}
       style={customStyles}
       className={modal}
       overlayClassName={modalContainer}

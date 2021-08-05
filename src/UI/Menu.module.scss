@@ -1,13 +1,12 @@
 @import '../../src/lib/variables.module.scss';
 @import 'node_modules/pixel-borders/src/styles/pixel-borders.scss';
-.pageContainer {
-}
+
 .menuContainer {
   background-image: url('../Assets/background2.webp');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
-  height: 100vh;
+  height: 50vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,7 +28,7 @@
       padding: 0;
       font-size: 5vw;
       color: #7dd40c;
-      margin-top: -4vh;
+      margin-top: -2vw;
     }
   }
 
@@ -39,11 +38,11 @@
     justify-content: center;
     align-items: center;
     color: #7dd40c;
-    font-size: 30px;
+    font-size: 2vw;
     // cursor: pointer;
     @include pixel-borders(
       $corner-size: 2,
-      $border-size: 7px,
+      $border-size: 0.5vw,
       $border-color: #7dd40c,
       $border-inset-color: true
     );
@@ -62,12 +61,13 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    height: 50%;
+    width: 20vw;
   }
   .warriorMessageStyle {
     position: absolute;
     right: 12%;
     width: 20vw;
     bottom: 48%;
+    font-size: 1vw;
   }
 }

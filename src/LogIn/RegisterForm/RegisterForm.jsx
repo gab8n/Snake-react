@@ -27,6 +27,7 @@ const RegisterForm = () => {
     submitLogInButton,
     logInInput,
     registerButton,
+    inputUpperText,
   } = styles;
 
   const [registerCredentials, setRegisterCredentials] = useState({
@@ -50,7 +51,7 @@ const RegisterForm = () => {
       autocomplete="off"
     >
       <div className="nes-field">
-        <label>Username</label>
+        <label className={inputUpperText}>Username</label>
         <input
           type="text"
           name="username"
@@ -66,7 +67,7 @@ const RegisterForm = () => {
         />
       </div>
       <div className="nes-field">
-        <label>Email</label>
+        <label className={inputUpperText}>Email</label>
         <input
           type="text"
           name="email"
@@ -82,7 +83,7 @@ const RegisterForm = () => {
         />
       </div>
       <div className="nes-field">
-        <label>Password</label>
+        <label className={inputUpperText}>Password</label>
         <input
           type="password"
           name="password"

@@ -3,7 +3,7 @@
 @mixin borderPixelated($borderColor) {
   @include pixel-borders(
     $corner-size: 2,
-    $border-size: 7px,
+    $border-size: 0.5vw,
     $border-color: $borderColor
   );
   color: $borderColor;
