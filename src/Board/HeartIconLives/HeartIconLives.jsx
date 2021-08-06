@@ -1,24 +1,22 @@
 import styles from './HeartIconLives.module.scss';
-
+import emptyHeart from '../../Assets/heartEmpty.png';
+import fullHeart from '../../Assets/heartFull.png';
 const HeartIconLives = ({ lives }) => {
-  const { heartIconContainer } = styles;
+  const { heartIconContainer, heartLiveStyle } = styles;
   return (
     <div className={heartIconContainer}>
-      <i
-        className={
-          'nes-icon is-medium ' + (lives < 1 ? 'is-transparent heart' : 'heart')
-        }
-      ></i>
-      <i
-        className={
-          'nes-icon is-medium ' + (lives < 2 ? 'is-transparent heart' : 'heart')
-        }
-      ></i>
-      <i
-        className={
-          'nes-icon is-medium ' + (lives < 3 ? 'is-transparent heart' : 'heart')
-        }
-      ></i>
+      <img
+        src={lives < 1 ? emptyHeart : fullHeart}
+        className={heartLiveStyle}
+      />
+      <img
+        src={lives < 2 ? emptyHeart : fullHeart}
+        className={heartLiveStyle}
+      />
+      <img
+        src={lives < 3 ? emptyHeart : fullHeart}
+        className={heartLiveStyle}
+      />
     </div>
   );
 };

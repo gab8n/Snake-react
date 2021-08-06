@@ -1,10 +1,6 @@
 @import '../../Common/mixins.module.scss';
 .modal {
   position: absolute;
-  top: 40px;
-  left: 40px;
-  right: 40px;
-  bottom: 40px;
   background-color: #000;
   @include borderPixelated(#41a58c);
   display: flex;
@@ -24,16 +20,16 @@
 .gameOverButton {
   background-color: #392d5b;
   @include borderPixelated(#41a58c);
-  @include buttonSize(70px, 370px, 30px);
-  margin-bottom: 20px;
+  @include buttonSize(4vw, 20vw, 1.5vw);
+  margin-bottom: 1vw;
   &:active {
     background-color: white;
   }
 }
 .scoreStyle {
-  font-size: 40px;
+  font-size: 2vw;
   color: #41a58c;
-  margin-bottom: 40px;
+  margin-bottom: 2vw;
 }
 .numberScoreStyle {
   color: #d098bf;

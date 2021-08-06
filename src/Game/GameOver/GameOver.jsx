@@ -15,11 +15,11 @@ const customStyles = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '510px',
-    height: '330px',
+    width: '28vw',
+    height: '19vw',
   },
 };
-Modal.setAppElement('#root');
+// Modal.setAppElement('body');
 const GameOver = forwardRef(({ score, onReplay, restartGame }, ref) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   useImperativeHandle(ref, () => ({

@@ -1,11 +1,13 @@
 @import 'node_modules/pixel-borders/src/styles/pixel-borders.scss';
 
 @mixin borderPixelated($borderColor) {
+  border-radius: 2.5vw !important;
   @include pixel-borders(
     $corner-size: 2,
     $border-size: 0.5vw,
     $border-color: $borderColor
   );
+
   color: $borderColor;
 }
 @mixin buttonSize($height, $width, $fontSize) {
