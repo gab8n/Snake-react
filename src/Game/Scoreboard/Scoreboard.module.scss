@@ -1,0 +1,41 @@
+@import '../../Common/mixins.module.scss';
+
+.scoreboardTitle {
+  @include borderPixelated(rgb(134, 154, 189));
+  position: absolute;
+  height: 5vw;
+  width: 20vw;
+  right: 5vw;
+  top: 3.5vw;
+  background-color: rgb(134, 154, 189);
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    margin: 0;
+    font-size: 1.8vw;
+  }
+}
+
+.scoreboardContainer {
+  @include borderPixelated(rgb(134, 154, 189));
+  height: 36.5vw;
+  width: 20vw;
+  background-color: #29153fd2;
+  position: absolute;
+  right: 5vw;
+  bottom: 4vw;
+  padding: 1vw;
+  overflow: scroll;
+  font-size: 0.75vw;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  .scoreStyle {
+    margin-bottom: 0.5vw;
+  }
+  .currentUserScoreStyle {
+    color: #41a58c;
+  }
+}

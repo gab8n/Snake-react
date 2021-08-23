@@ -6,11 +6,11 @@ import eatSound from '../Sounds/eatSound.mp3';
 import gameOver from '../Sounds/GameOver.mp3';
 
 import styles from '../Board/SnakeBoard.module.scss';
-import './FoodStyles.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { stopGame, playMediumDifficulty } from '../Redux/Ducks/gameDifficulty';
+import { playMediumDifficulty } from '../Redux/Ducks/gameDifficulty';
 import Countdown from '../Game/Countdown/Countdown';
 import { changeDirection } from '../Redux/Ducks/snakeDirection';
+import { toggleOpen, toggleClose } from '../Redux/Ducks/settingWindow';
 import { getCellClassName } from './Utils/setClassName';
 import { getGrowthNodeCoords } from './Utils/getGrowthNodeCoords';
 import { isOutOfBounds } from './Utils/isOutOfBounds';
@@ -22,6 +22,8 @@ import { getStartingSnakeLLValue } from './Utils/getStartingSnakeLLValue';
 import HearthIconLives from './HeartIconLives/HeartIconLives.jsx';
 import GameOver from '../Game/GameOver/GameOver.jsx';
 import GameOverAnimation from '../Game/GameOverAnimation/GameOverAnimation.jsx';
+import { updateUserScore, updateUserHistory } from '../Services/firebase';
+import { setUserData } from '../Redux/Ducks/auth';
 
 class LinkedListNode {
   constructor(value) {
@@ -53,7 +55,7 @@ const SnakeBoard = () => {
     new Set([snake.head.value.cell])
   );
   const [foodCell, setFoodCell] = useState(snake.head.value.cell + 5);
-  const [activeCountdown, setActiveCountdown] = useState(false);
+  const [activeCountdown, setActiveCountdown] = useState(true);
   const toggleCountdown = () => {
     setActiveCountdown(!activeCountdown);
   };
@@ -67,6 +69,12 @@ const SnakeBoard = () => {
     (state) => state.volumeManager.effectsVolume
   );
   const gameDifficulty = useSelector((state) => state.gameDifficulty);
+  const settingWindow = useSelector((state) => state.settingWindow);
+  const user = useSelector((state) => state.auth);
+  const [isPlaying, setPlaying] = useState(false);
+  const togglePlaying = () => {
+    setPlaying(!isPlaying);
+  };
 
   const [playEatSound] = useSound(eatSound, {
     volume: playEffectsVolume / 10,
@@ -77,24 +85,39 @@ const SnakeBoard = () => {
 
   useEffect(() => {
     window.addEventListener('keydown', (e) => {
-      console.log(activeCountdown);
       handleKeydown(e);
     });
   }, []);
 
+  useEffect(() => {
+    setLives(3);
+    setScore(0);
+    const snakeLLStartingValue = getStartingSnakeLLValue(board);
+    setSnake(new LinkedList(snakeLLStartingValue));
+    setFoodCell(snakeLLStartingValue.cell + 5);
+    setSnakeCells(new Set([snakeLLStartingValue.cell]));
+  }, [gameDifficulty]);
+
   const dispatch = useDispatch();
 
-  useInterval(() => {
-    moveSnake();
-  }, gameDifficulty);
+  useInterval(
+    () => {
+      moveSnake();
+    },
+    !settingWindow && isPlaying ? gameDifficulty : null
+  );
 
   const handleKeydown = (e) => {
-    const newDirection = getDirectionFromKey(e.key);
+    if (e.key === 'p') {
+      dispatch(toggleOpen());
+    } else {
+      const newDirection = getDirectionFromKey(e.key);
 
-    const isValidDirection = newDirection !== '';
-    if (!isValidDirection) return;
+      const isValidDirection = newDirection !== '';
+      if (!isValidDirection) return;
 
-    dispatch(changeDirection(newDirection));
+      dispatch(changeDirection(newDirection));
+    }
   };
 
   const moveSnake = () => {
@@ -105,12 +128,12 @@ const SnakeBoard = () => {
 
     const nextHeadCoords = getCoordsInDirection(currentHeadCoords, direction);
     if (isOutOfBounds(nextHeadCoords, board)) {
-      handleGameOver();
+      handleSnakeDied();
       return;
     }
     const nextHeadCell = board[nextHeadCoords.row][nextHeadCoords.col];
     if (snakeCells.has(nextHeadCell)) {
-      handleGameOver();
+      handleSnakeDied();
       return;
     }
 
@@ -182,7 +205,7 @@ const SnakeBoard = () => {
     setFoodCell(snakeLLStartingValue.cell + 5);
     setSnakeCells(new Set([snakeLLStartingValue.cell]));
     dispatch(changeDirection(Direction.RIGHT));
-    dispatch(playMediumDifficulty());
+    togglePlaying();
   };
   const childRef = useRef();
 
@@ -193,30 +216,67 @@ const SnakeBoard = () => {
     setSnake(new LinkedList(snakeLLStartingValue));
     setFoodCell(snakeLLStartingValue.cell + 5);
     setSnakeCells(new Set([snakeLLStartingValue.cell]));
-    dispatch(changeDirection(Direction.RIGHT));
-    // dispatch(stopGame());
+
     toggleCountdown();
   };
 
   const handleGameOver = () => {
-    window.removeEventListener('keydown', (e) => {
-      handleKeydown(e);
-    });
+    if (user.loggedIn) {
+      const difficultyScore =
+        gameDifficulty === 175
+          ? 'scoreOnEasy'
+          : gameDifficulty === 150
+          ? 'scoreOnMedium'
+          : 'scoreOnHard';
+      if (score > user.userData[difficultyScore]) {
+        updateUserScore(difficultyScore, user.userData.userId, score, (data) =>
+          dispatch(setUserData(data))
+        );
+        const difficultyScore2 =
+          gameDifficulty === 175
+            ? 'Easy'
+            : gameDifficulty === 150
+            ? 'Medium'
+            : 'Hard';
+        updateUserHistory(
+          'Played a game on ' +
+            difficultyScore2 +
+            ' and made a Highscore of: ' +
+            score,
+          user.userData.userId
+        );
+      } else {
+        const difficultyScore2 =
+          gameDifficulty === 175
+            ? 'Easy'
+            : gameDifficulty === 150
+            ? 'Medium'
+            : 'Hard';
+        updateUserHistory(
+          'Played a game on ' +
+            difficultyScore2 +
+            ' and made a score of: ' +
+            score,
+          user.userData.userId
+        );
+      }
+    }
+    setLives(0);
+    togglePlaying();
+    playGameOver();
+    toggleGameOverAnimation();
+    const timer = setTimeout(() => {
+      childRef.current.openModal();
+    }, 2100);
+    return () => clearTimeout(timer);
+  };
+  const handleSnakeDied = () => {
     if (lives > 1) {
       setLives(lives - 1);
-      dispatch(stopGame());
+      togglePlaying();
       toggleCountdown();
     } else {
-      setLives(lives - 1);
-      dispatch(stopGame());
-      playGameOver();
-      // setScore(0);
-      // openModal();
-      toggleGameOverAnimation();
-      const timer = setTimeout(() => {
-        childRef.current.openModal();
-      }, 2100);
-      return () => clearTimeout(timer);
+      handleGameOver();
     }
   };
   return (
@@ -244,7 +304,11 @@ const SnakeBoard = () => {
           </div>
         ))}
       </div>
-      {activeCountdown ? <Countdown onCountdownEnd={onCountdownEnd} /> : ''}
+      {!settingWindow && activeCountdown ? (
+        <Countdown onCountdownEnd={onCountdownEnd} />
+      ) : (
+        ''
+      )}
       {activeGameOverAnimation ? (
         <GameOverAnimation onFinishAnimation={toggleGameOverAnimation} />
       ) : (

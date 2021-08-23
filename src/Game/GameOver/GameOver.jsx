@@ -3,13 +3,7 @@ import CustomButton from '../../Common/CustomButton/CustomButton';
 import styles from './GameOver.module.scss';
 import { Link } from 'react-router-dom';
 
-import React, {
-  useEffect,
-  useState,
-  forwardRef,
-  useRef,
-  useImperativeHandle,
-} from 'react';
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
 const customStyles = {
   content: {
     top: '50%',

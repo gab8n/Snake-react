@@ -61,17 +61,22 @@
     height: 4.5vw;
     width: 20vw;
   }
+
   .warriorGifStyle {
     position: absolute;
     right: 0;
     bottom: 0;
     width: 20vw;
   }
+
   .warriorMessageStyle {
     position: absolute;
-    right: 12%;
+    // width: 100px;
+    // right: -(this.width/10) px;
+    right: 8vw;
+    // left: 75vw;
     width: 20vw;
-    bottom: 48%;
+    // bottom: 48%;
     font-size: 1vw;
   }
 }

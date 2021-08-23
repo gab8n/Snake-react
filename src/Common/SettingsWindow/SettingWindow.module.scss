@@ -2,16 +2,14 @@
 
 .modal {
   position: absolute;
-  top: 40px;
-  left: 40px;
-  right: 40px;
-  bottom: 40px;
+
   background-color: rgb(0, 0, 0);
   @include borderPixelated(#aa0000);
   display: flex;
-  justify-content: center;
+  // justify-content: center;
   flex-direction: column;
-  align-items: center;
+  // align-items: center;
+  // font-size: 1.2vw;
 }
 .modalContainer {
   position: fixed;
@@ -20,4 +18,79 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.405);
+}
+.modalClose {
+  height: 1.5vw;
+  width: 1.5vw;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.8vw;
+}
+.settingStyle {
+  display: flex;
+  padding: 0 1vw;
+  height: 3vw;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1vw;
+  border-top-style: solid;
+  border-width: 0.1vw;
+  padding-top: 1vw;
+  p {
+    font-size: 1.2vw;
+    margin: 0;
+  }
+}
+.settingTitle {
+  font-size: 2vw;
+  margin-top: 0.1vw;
+
+  align-self: center;
+}
+.fullScreenSetting {
+  display: flex;
+  margin-right: 3vw;
+  width: 10vw;
+  justify-content: space-between;
+  align-items: center;
+}
+.fullScreenIconStyle {
+  width: 2vw;
+  height: 2vw;
+}
+.fullScreenStatusStyle {
+  font-size: 1.8vw;
+  margin: 0;
+}
+
+.changeDifficultyStyle {
+  display: flex;
+  width: 12vw;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 2vw;
+  .dificultyChangeIcon {
+    width: 2vw;
+  }
+  .difficultyStyle {
+    font-size: 1.4vw;
+  }
+}
+
+.logoutButton {
+  align-self: center;
+  justify-self: center;
+  @include borderPixelated(#aa0000);
+  background-color: transparent;
+  outline: none;
+  width: 10vw;
+  font-size: 1.3vw;
+  position: absolute;
+  right: 1vw;
+  bottom: 0.7vw;
+
+  &:focus {
+    outline: none;
+  }
 }

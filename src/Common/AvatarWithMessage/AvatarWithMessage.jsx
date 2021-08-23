@@ -14,7 +14,7 @@ const AvatarWithMessage = ({
       <div className={avatarMessageClass}>
         <p className={`nes-balloon from-${avatarMessagedirection}`}>
           <Typical
-            steps={[avatarMessage, 5000]}
+            steps={[avatarMessage, 2500, '']}
             // loop={Infinity}
             wrapper="span"
           />

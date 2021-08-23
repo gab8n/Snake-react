@@ -12,9 +12,9 @@ const GameOverAnimation = ({ onFinishAnimation }) => {
     return () => clearTimeout(timer);
   }, []);
   return (
-    <div className={gameOverAnimationStyle}>
-      <img src={gameOverGif} />
-    </div>
+    // <div className={gameOverAnimationStyle}>
+    <img className={gameOverAnimationStyle} src={gameOverGif} />
+    // </div>
   );
 };
 

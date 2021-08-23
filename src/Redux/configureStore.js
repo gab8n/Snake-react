@@ -4,6 +4,8 @@ import avatarMessage from './Ducks/avatarMessage';
 import volumeManager from './Ducks/volumeManager';
 import gameDifficulty from './Ducks/gameDifficulty';
 import snakeDirection from './Ducks/snakeDirection';
+import auth from './Ducks/auth';
+import settingWindow from './Ducks/settingWindow';
 
 const reducer = combineReducers({
   loginOrRegister,
@@ -11,6 +13,8 @@ const reducer = combineReducers({
   volumeManager,
   gameDifficulty,
   snakeDirection,
+  auth,
+  settingWindow,
 });
 
 const configureStore = (initialState) =>

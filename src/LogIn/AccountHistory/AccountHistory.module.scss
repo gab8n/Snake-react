@@ -1,0 +1,22 @@
+@import '../../Common/mixins.module.scss';
+
+.accountHistoryContainer {
+  @include borderPixelated(#f467c9);
+  width: 50vw;
+  height: 40vw;
+  overflow: scroll;
+  background-color: #ddc6f8;
+  //   padding: 3vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75vw;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.historyIndexStyle {
+  color: #007585;
+}

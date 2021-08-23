@@ -10,7 +10,7 @@ import {
   writeOnEmailFocusMessage,
   writeOnPasswordFocusMessage,
 } from '../../Redux/Ducks/avatarMessage';
-
+import { setUserData } from '../../Redux/Ducks/auth';
 import { useSelector } from 'react-redux';
 import {
   signInWithGoogle,
@@ -40,7 +40,8 @@ const LogInForm = () => {
     e.preventDefault();
     signInWithEmailAndPassword(
       logInCredentials.email,
-      logInCredentials.password
+      logInCredentials.password,
+      (data) => dispatch(setUserData(data))
     );
   };
   return (
@@ -90,7 +91,9 @@ const LogInForm = () => {
         />
         <CustomButton
           additionalStyle={`${logInButtons} ${googleLogInButton}`}
-          onClick={signInWithGoogle}
+          onClick={() =>
+            signInWithGoogle((data) => dispatch(setUserData(data)))
+          }
         >
           <img src={googleLogo} className={googleLogoStyle} />
         </CustomButton>

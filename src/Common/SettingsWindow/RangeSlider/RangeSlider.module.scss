@@ -5,7 +5,7 @@
   // @include borderPixelated(#aa0000);
   @include pixel-borders(
     $corner-size: 1,
-    $border-size: 7px,
+    $border-size: 0.5vw,
     $border-color: #aa0000
   );
   // border-style: solid;
@@ -15,17 +15,17 @@
 
 .slider {
   overflow: hidden;
-  width: 200px;
+  width: 10vw;
   -webkit-appearance: none;
   background-color: #00000000;
 
   &::-webkit-slider-thumb {
     margin: 0 !important;
     padding: 0;
-    width: 10px;
+    width: 1vw;
     -webkit-appearance: none;
-    height: 25px;
+    height: 1.5vw;
     background: #aa0000;
-    box-shadow: -200px 0 0 200px #aa0000;
+    box-shadow: -20vw 0 0 20vw #aa0000;
   }
 }

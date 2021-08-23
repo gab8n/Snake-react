@@ -12,6 +12,7 @@ import AvatarWithMessage from '../Common/AvatarWithMessage/AvatarWithMessage';
 import useSound from 'use-sound';
 import { writeLoginPageMessage } from '../Redux/Ducks/avatarMessage';
 import backgroundMusicLogin from '../Sounds/backgroundMusicLogin.mp3';
+import AccountHistory from './AccountHistory/AccountHistory';
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const LogIn = () => {
     mooshroomGirlMessageStyle,
   } = styles;
   const loginOrRegisterState = useSelector((state) => state.loginOrRegister);
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
 
   const playMusicVolume = useSelector(
     (state) => state.volumeManager.musicVolume
@@ -39,10 +41,20 @@ const LogIn = () => {
     playbackgroundMusic();
     return () => stop();
   }, [playbackgroundMusic]);
-
+  console.log(loggedIn);
   return (
     <div className={logInContainer}>
-      {loginOrRegisterState === 'REGISTER' ? <RegisterForm /> : <LogInForm />}
+      {!loggedIn ? (
+        <>
+          {loginOrRegisterState === 'REGISTER' ? (
+            <RegisterForm />
+          ) : (
+            <LogInForm />
+          )}
+        </>
+      ) : (
+        <AccountHistory />
+      )}
 
       <img
         src={sakuraTreeGif}

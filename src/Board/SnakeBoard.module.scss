@@ -1,5 +1,5 @@
 @import 'node_modules/pixel-borders/src/styles/pixel-borders.scss';
-
+@import '../Common/mixins.module.scss';
 .boardContainer {
   display: flex;
   flex-direction: column;
@@ -12,12 +12,7 @@
     padding: 0 2vw;
     height: 5vw;
 
-    @include pixel-borders(
-      $corner-size: 2,
-      $border-size: 6px,
-      $border-color: rgb(134, 154, 189),
-      $border-inset-color: true
-    );
+    @include borderPixelated(rgb(134, 154, 189));
     .gameScore {
       font-size: 2.5vw;
       color: black;
@@ -28,12 +23,7 @@
 .boardStyle {
   background-color: #29153f93;
   border-radius: 12px;
-  @include pixel-borders(
-    $corner-size: 2,
-    $border-size: 7px,
-    $border-color: rgb(134, 154, 189),
-    $border-inset-color: true
-  );
+  @include borderPixelated(rgb(134, 154, 189));
 }
 
 .rowStyle {
@@ -43,7 +33,7 @@
 .cellStyle {
   width: 3vw;
   height: 3vw;
-  outline: 1px solid rgb(134, 154, 189);
+  outline: 0.1vw solid rgb(134, 154, 189);
   display: inline-block;
 }
 

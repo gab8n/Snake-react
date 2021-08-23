@@ -24,6 +24,7 @@ export default function reducer(state = initialState, action) {
 export const changeEffectsVolume = (volume) => {
   return { type: EFFECTSVOLUME, payload: volume };
 };
+
 export const changeMusicVolume = (volume) => {
   return { type: MUSICVOLUME, payload: volume };
 };

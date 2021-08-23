@@ -8,6 +8,7 @@ import SettingsWindow from '../Common/SettingsWindow/SettingsWindow';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import backgroundMusicGame from '../Sounds/backgroundMusicGame.mp3';
+import Scoreboard from './Scoreboard/Scoreboard';
 
 const Game = () => {
   const playMusicVolume = useSelector(
@@ -35,6 +36,7 @@ const Game = () => {
         avatarMessageClass={swordGuyMessageStyle}
         avatarMessagedirection="left"
       />
+      <Scoreboard />
       <SettingsWindow />
     </div>
   );

@@ -16,6 +16,7 @@ import backgroundMusicMenu from '../Sounds/backgroundMusicMenu.mp3';
 const Menu = () => {
   const dispatch = useDispatch();
   dispatch(writeMenuPageMessage());
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
 
   const {
     menuContainer,
@@ -52,7 +53,7 @@ const Menu = () => {
         <div className={pixelBoder}>Start</div>
       </Link>
       <Link to="/logIn">
-        <div className={pixelBoder}>LogIn</div>
+        <div className={pixelBoder}>{loggedIn ? 'Account' : 'LogIn'}</div>
       </Link>
       <AvatarWithMessage
         avatarImageStyle={warriorGifStyle}

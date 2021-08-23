@@ -8,11 +8,11 @@ const initialState = 150;
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case EASY:
-      return 100;
+      return 175;
     case MEDIUM:
       return 150;
     case HARD:
-      return 200;
+      return 125;
     case STOP:
       return null;
     default:

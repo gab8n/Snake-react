@@ -3,7 +3,7 @@ import 'nes.css/css/nes.min.css';
 import React, { useState } from 'react';
 import googleLogo from '../../Assets/googleLogo2.png';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleLogin } from '../../Redux/Ducks/loginOrRegister';
 import CustomButton from '../../Common/CustomButton/CustomButton';
 import {
@@ -11,10 +11,11 @@ import {
   writeOnPasswordFocusMessage,
   writeOnUsernameFocusMessage,
 } from '../../Redux/Ducks/avatarMessage';
+import { setUserData } from '../../Redux/Ducks/auth';
 
 import {
   signInWithGoogle,
-  createUserWithEmailAndPassword, //
+  createUserWithEmailAndPassword,
 } from '../../Services/firebase';
 const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -33,14 +34,16 @@ const RegisterForm = () => {
   const [registerCredentials, setRegisterCredentials] = useState({
     email: '',
     password: '',
-    usernameP: '',
+    username: '',
   });
-
+  const currentUser = useSelector((state) => state.auth);
   const handleCreateUserWithEmailAndPassword = (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(
       registerCredentials.email,
-      registerCredentials.password
+      registerCredentials.password,
+      registerCredentials.username,
+      (data) => dispatch(setUserData(data))
     );
   };
 
@@ -107,7 +110,9 @@ const RegisterForm = () => {
         />
         <CustomButton
           additionalStyle={`${logInButtons} ${googleLogInButton}`}
-          onClick={signInWithGoogle}
+          onClick={() =>
+            signInWithGoogle((data) => dispatch(setUserData(data)))
+          }
         >
           <img src={googleLogo} className={googleLogoStyle} />
         </CustomButton>

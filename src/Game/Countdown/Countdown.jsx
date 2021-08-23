@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import useSound from 'use-sound';
-
+import { useSelector } from 'react-redux';
 import styles from '../Countdown/Countdown.module.scss';
 import oneSound from '../../Sounds/1.ogg';
 import twoSound from '../../Sounds/2.ogg';
@@ -17,10 +17,14 @@ const countdownActions = [
 const Countdown = ({ onCountdownEnd }) => {
   const { countdownStyle } = styles;
   const [countdownNumber, setCountdownNumber] = useState(3);
+  const playEffectsVolume = useSelector(
+    (state) => state.volumeManager.effectsVolume
+  );
 
   const [playCountdownSound] = useSound(
     countdownActions[countdownNumber].sound,
     {
+      volume: playEffectsVolume / 10,
       interrupt: true,
     }
   );
